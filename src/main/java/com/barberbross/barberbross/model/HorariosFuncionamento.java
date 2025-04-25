@@ -1,5 +1,7 @@
 package com.barberbross.barberbross.model;
 
+import java.time.LocalTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,6 +14,6 @@ public class HorariosFuncionamento {
     @Id @GeneratedValue
     private Long id;
 
-    private String horarioInicio;
-    private String horarioFim;
+    private LocalTime horarioInicio;
+    private LocalTime horarioFim;
 }
