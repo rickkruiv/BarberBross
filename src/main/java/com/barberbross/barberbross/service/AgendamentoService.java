@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.barberbross.barberbross.dto.AgendamentDTO;
+import com.barberbross.barberbross.dto.AtualizarAgendamentoDTO;
 import com.barberbross.barberbross.enums.StatusAgendamento;
 import com.barberbross.barberbross.model.Agendamento;
 import com.barberbross.barberbross.model.Barbearia;
@@ -40,27 +41,9 @@ public class AgendamentoService {
 
     public List<AgendamentDTO> listarAgendamentos() {
 
-        /*List<Agendamento> agendamentos =  agendamentoRepository.findAll();
-        List<AgendamentDTO> agendamentDTOs = new ArrayList<>();
-        
-        for ( Agendamento agendamento : agendamentos ) {
-            
-            AgendamentDTO agendamentDTO = new AgendamentDTO();
-
-            agendamentDTO.setBarbeariaId( agendamento.getBarbearia().getId() );
-            agendamentDTO.setBarbeiroId( agendamento.getBarbeiro().getId() );
-            agendamentDTO.setClienteId( agendamento.getCliente().getId() );
-            agendamentDTO.setData( agendamento.getData() );
-            agendamentDTO.setHora( agendamento.getHora() );
-            agendamentDTO.setServicoId( agendamento.getServico().getId() );
-            
-            agendamentDTOs.add( agendamentDTO );
-        }
-        return agendamentDTOs;
-        */
-
         return agendamentoRepository.findAll().stream().map( agendamento -> {
             AgendamentDTO dto = new AgendamentDTO();
+            dto.setAgendamentoId( agendamento.getId() );
             dto.setBarbeariaId( agendamento.getBarbearia().getId() );
             dto.setBarbeiroId( agendamento.getBarbeiro().getId() );
             dto.setClienteId( agendamento.getCliente().getId() );
@@ -72,10 +55,30 @@ public class AgendamentoService {
         } ).toList();
     }
 
+    public AgendamentDTO verAgendamento( Long id ) {
+
+        Agendamento agendamento = agendamentoRepository
+            .findById( id )
+            .orElseThrow( () -> new RuntimeException( "Agendamento nao encontrado" ) );
+        
+        AgendamentDTO dto = new AgendamentDTO();
+
+        dto.setAgendamentoId( agendamento.getId() );
+        dto.setBarbeariaId( agendamento.getBarbearia().getId() );
+        dto.setBarbeiroId( agendamento.getBarbeiro().getId() );
+        dto.setClienteId( agendamento.getCliente().getId() );
+        dto.setServicoId( agendamento.getServico().getId() );
+        dto.setData( agendamento.getData() );
+        dto.setHora( agendamento.getHora() );
+        dto.setStatus( agendamento.getStatus() );
+
+        return dto;
+    }
+
     public Agendamento salvarAgendamento( AgendamentDTO dto ) {
 
         Agendamento agendamento = new Agendamento();
-
+        
         Cliente cliente = clienteRepository.findById( dto.getClienteId() )
                                 .orElseThrow( () -> new RuntimeException( "Cliente nao encontrado" ) );
 
@@ -87,28 +90,19 @@ public class AgendamentoService {
         
         Servico servico = servicoRepository.findById( dto.getServicoId() )
                                 .orElseThrow( () -> new RuntimeException( "Servico nao encontrado" ) );
-        
-
-        if ( agendamentoRepository.existsByDataAndHoraAndBarbeiroAndStatus( dto.getData(), dto.getHora(), barbeiro, StatusAgendamento.AGENDADO ) ) {
-            throw new RuntimeException( "Ja existe um agendamento" );
-        }
-
-        if ( !barbeiro.getBarbearia().getId().equals( barbearia.getId() ) ) {
-            throw new RuntimeException( "Barbeiro nao pertence a barbearia informada" );
-        }
-
-        if ( !servico.getBarbearia().getId().equals( barbearia.getId() ) ) {
-            throw new RuntimeException( "Servico nao pertence a barbearia informada" );
-        }
 
         agendamento.setData( dto.getData() );
         agendamento.setHora( dto.getHora() );
+
         agendamento.setCliente( cliente );
         agendamento.setBarbeiro( barbeiro );
         agendamento.setBarbearia( barbearia );
         agendamento.setServico( servico );
+        
         agendamento.setStatus( StatusAgendamento.AGENDADO );
 
+        validarAgendamento( agendamento );
+                                
         return agendamentoRepository.save( agendamento );
     }
 
@@ -131,6 +125,37 @@ public class AgendamentoService {
         }
     }
 
+    public Agendamento atualizarAgendamento( Long agendamentoId, AtualizarAgendamentoDTO atualizarAgendamentoDTO ) {
+
+        Agendamento agendamento = agendamentoRepository.findById( agendamentoId )
+            .orElseThrow( () -> new RuntimeException( "Agendamento não encontrado" ) );
+
+        Cliente cliente = agendamento.getCliente();
+
+        Barbeiro barbeiro = atualizarAgendamentoDTO.getBarbeiroId() != null 
+                ? barbeiroRepository.findById( atualizarAgendamentoDTO.getBarbeiroId() )
+                    .orElseThrow( () -> new RuntimeException( "Barbeiro não encontrado" ) ) 
+                : agendamento.getBarbeiro();
+
+        Servico servico = atualizarAgendamentoDTO.getServicoId() != null
+                ? servicoRepository.findById( atualizarAgendamentoDTO.getServicoId() )
+                    .orElseThrow( () -> new RuntimeException( "Servico não encontrado" ) ) 
+                : agendamento.getServico();
+
+        Barbearia barbearia = agendamento.getBarbearia();
+
+        agendamento.setData( atualizarAgendamentoDTO.getData() != null ? atualizarAgendamentoDTO.getData() : agendamento.getData() );
+        agendamento.setHora( atualizarAgendamentoDTO.getHora() != null ? atualizarAgendamentoDTO.getHora() : agendamento.getHora() );
+        agendamento.setServico( servico );
+        agendamento.setCliente( cliente );
+        agendamento.setBarbeiro( barbeiro );
+        agendamento.setBarbearia( barbearia );
+
+        validarAgendamento( agendamento );
+
+        return agendamentoRepository.save( agendamento );
+    }
+
     public boolean deletarAgendamento( Long id ) {
 
         if ( agendamentoRepository.existsById( id ) ) {
@@ -139,5 +164,27 @@ public class AgendamentoService {
         }
 
         return false;
+    }
+
+    private void validarAgendamento( Agendamento agendamento ) {
+
+        if ( !agendamento.getBarbeiro().getBarbearia().getId().equals( agendamento.getBarbearia().getId() ) ) {
+            throw new RuntimeException( "Barbeiro nao pertence a barbearia informada" );
+        }
+
+        if ( !agendamento.getServico().getBarbearia().getId().equals( agendamento.getBarbearia().getId() ) ) {
+            throw new RuntimeException( "Servico nao pertence a barbearia informada" );
+        }
+
+        boolean existeConflito = agendamentoRepository.existsByDataAndHoraAndBarbeiroAndStatus(
+            agendamento.getData(),
+            agendamento.getHora(),
+            agendamento.getBarbeiro(),
+            StatusAgendamento.AGENDADO
+        );
+    
+        if ( existeConflito && ( agendamento.getId() == null || !agendamentoRepository.findById( agendamento.getId() ).isPresent()) ) {
+            throw new RuntimeException("Já existe um agendamento nesse horário para o barbeiro");
+        }
     }
 }
