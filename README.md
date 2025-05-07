@@ -33,18 +33,12 @@ Sistema de agendamento online para barbearias, feito com Java + Spring Boot no b
 
 ```json
 {
-  "cliente": "João da Silva",
-  "data": "2025-04-25",
-  "horario": "13:00",
-  "barbeiro": {
-    "id": 1
-  },
-  "servico": {
-    "id": 2
-  },
-  "barbearia": {
-    "id": 1
-  }
+    "data":	"2025-05-02",
+    "hora":	"14:30:00",
+    "clienteId": 2,
+    "barbeiroId": 1,
+    "servicoId": 4,
+    "barbeariaId": 2
 }
 ```
 
