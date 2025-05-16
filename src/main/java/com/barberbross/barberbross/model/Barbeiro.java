@@ -17,10 +17,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Barbeiro {
     
     @Id
@@ -38,8 +40,8 @@ public class Barbeiro {
     @ManyToMany
     @JoinTable(
         name = "barbeiro_dias",
-        joinColumns = @JoinColumn(name = "barbeiro_id"),
-        inverseJoinColumns = @JoinColumn(name = "dia_id")
+        joinColumns = @JoinColumn( name = "barbeiro_id" ),
+        inverseJoinColumns = @JoinColumn( name = "dia_id" )
     )
     @JsonIgnore
     private List<DiaSemana> diasDisponiveis;

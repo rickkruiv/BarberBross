@@ -1,10 +1,12 @@
 package com.barberbross.barberbross.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
-@Data
+@Getter
+@Setter
 public class Endereco {
     
     private String rua;

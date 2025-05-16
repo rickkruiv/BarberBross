@@ -6,9 +6,11 @@ import java.time.LocalTime;
 import com.barberbross.barberbross.enums.StatusAgendamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AgendamentDTO {
 
     private Long agendamentoId;

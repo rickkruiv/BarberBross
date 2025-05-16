@@ -1,8 +1,10 @@
 package com.barberbross.barberbross.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ErroResposta {
 
     private int status;
