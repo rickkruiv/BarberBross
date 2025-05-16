@@ -39,9 +39,9 @@ public class AgendamentoService {
     @Autowired
     private ServicoRepository servicoRepository;
 
-    public List<AgendamentDTO> listarAgendamentos() {
+    public List<AgendamentDTO> listarAgendamentos( Long barbeariaId ) {
 
-        return agendamentoRepository.findAll().stream().map( agendamento -> {
+        return agendamentoRepository.findByBarbeariaId( barbeariaId ).stream().map( agendamento -> {
             AgendamentDTO dto = new AgendamentDTO();
             dto.setAgendamentoId( agendamento.getId() );
             dto.setBarbeariaId( agendamento.getBarbearia().getId() );

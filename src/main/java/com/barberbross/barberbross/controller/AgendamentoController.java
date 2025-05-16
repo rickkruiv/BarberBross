@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.barberbross.barberbross.dto.AgendamentDTO;
@@ -29,14 +30,19 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @GetMapping 
-    public ResponseEntity<?> listarAgendamentos() {
+    public ResponseEntity<?> listarAgendamentos( @RequestParam Long barbeariaId ) {
         try {
-            return ResponseEntity.ok( agendamentoService.listarAgendamentos() );
+            return ResponseEntity.ok( agendamentoService.listarAgendamentos( barbeariaId ) );
         } catch ( RuntimeException e ) {
             return ResponseEntity
                         .status( HttpStatus.BAD_REQUEST )
                         .body( e.getMessage() );
         }
+    }
+
+    @GetMapping( "/{id}" )
+    public ResponseEntity<AgendamentDTO> verAgendamento( @RequestParam Long id ) {
+        return ResponseEntity.ok( agendamentoService.verAgendamento( id ) );
     }
 
     @PostMapping

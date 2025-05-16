@@ -13,4 +13,5 @@ import com.barberbross.barberbross.model.Barbeiro;
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
     boolean existsByDataAndHoraAndBarbeiroAndStatus( LocalDate data, LocalTime hora, Barbeiro barbeiro, StatusAgendamento statusAgendamento ); 
     List<Agendamento> findByStatus( StatusAgendamento statusAgendamento );
+    List<Agendamento> findByBarbeariaId( Long barbeariaId );
 }
