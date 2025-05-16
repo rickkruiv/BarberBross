@@ -41,7 +41,7 @@ public class AgendamentoController {
     }
 
     @GetMapping( "/{id}" )
-    public ResponseEntity<AgendamentDTO> verAgendamento( @RequestParam Long id ) {
+    public ResponseEntity<AgendamentDTO> verAgendamento( @PathVariable Long id ) {
         return ResponseEntity.ok( agendamentoService.verAgendamento( id ) );
     }
 
