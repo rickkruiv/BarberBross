@@ -1,5 +1,6 @@
 package com.barberbross.barberbross.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
@@ -21,6 +22,8 @@ public class HorarioDisponivelBarbeiro {
     private Long id;
 
     private LocalTime horario;
+
+    private LocalDate data;
 
     @ManyToOne
     @JoinColumn( name = "barbeiro_id" )
