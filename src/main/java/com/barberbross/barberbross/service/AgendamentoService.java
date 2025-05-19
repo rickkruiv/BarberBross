@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.barberbross.barberbross.dto.AgendamentDTO;
 import com.barberbross.barberbross.dto.AtualizarAgendamentoDTO;
+import com.barberbross.barberbross.enums.DiaEnum;
 import com.barberbross.barberbross.enums.StatusAgendamento;
 import com.barberbross.barberbross.model.Agendamento;
 import com.barberbross.barberbross.model.Barbearia;
@@ -174,6 +175,17 @@ public class AgendamentoService {
 
         if ( !agendamento.getServico().getBarbearia().getId().equals( agendamento.getBarbearia().getId() ) ) {
             throw new RuntimeException( "Servico nao pertence a barbearia informada" );
+        }
+
+        DiaEnum diaEnum = DiaEnum.mapearDayOfWeek( agendamento.getData().getDayOfWeek() );
+
+        boolean diaDisponivel = agendamento.getBarbeiro()
+            .getDiasDisponiveis()
+            .stream()
+            .anyMatch( diaSemana -> diaSemana.getDia() == diaEnum );
+        
+        if ( !diaDisponivel ) {
+            throw new RuntimeException( "Barbeiro indisponivel para este dia" );
         }
 
         boolean existeConflito = agendamentoRepository.existsByDataAndHoraAndBarbeiroAndStatus(
