@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.barberbross.barberbross.dto.AtualizarBarbeiroDTO;
 import com.barberbross.barberbross.dto.BarbeiroDTO;
 import com.barberbross.barberbross.model.Barbeiro;
 import com.barberbross.barberbross.service.BarbeiroService;

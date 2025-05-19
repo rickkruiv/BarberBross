@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.barberbross.barberbross.controller.AtualizarBarbeiroDTO;
+import com.barberbross.barberbross.dto.AtualizarBarbeiroDTO;
 import com.barberbross.barberbross.dto.BarbeiroDTO;
 import com.barberbross.barberbross.model.Barbearia;
 import com.barberbross.barberbross.model.Barbeiro;

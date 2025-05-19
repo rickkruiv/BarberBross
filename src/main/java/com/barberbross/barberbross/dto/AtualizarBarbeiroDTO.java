@@ -1,4 +1,4 @@
-package com.barberbross.barberbross.controller;
+package com.barberbross.barberbross.dto;
 
 import java.util.List;
 
