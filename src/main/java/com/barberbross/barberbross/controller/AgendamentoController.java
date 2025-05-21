@@ -29,19 +29,19 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
 
-    @GetMapping 
-    public ResponseEntity<?> listarAgendamentos( @RequestParam Long barbeariaId ) {
-        try {
-            return ResponseEntity.ok( agendamentoService.listarAgendamentos( barbeariaId ) );
-        } catch ( RuntimeException e ) {
-            return ResponseEntity
-                        .status( HttpStatus.BAD_REQUEST )
-                        .body( e.getMessage() );
-        }
-    }
+    @GetMapping
+    public ResponseEntity<?> buscarAgendamentos( @RequestParam( required = false ) Long id, @RequestParam( required = false ) Long barbeariaId ) {
 
-    @GetMapping( "/{id}" )
-    public ResponseEntity<AgendamentDTO> verAgendamento( @PathVariable Long id ) {
+        if ( id == null ) {
+            try {
+                return ResponseEntity.ok( agendamentoService.listarAgendamentos( barbeariaId ) );
+            } catch ( RuntimeException e ) {
+                return ResponseEntity
+                            .status( HttpStatus.BAD_REQUEST )
+                            .body( e.getMessage() );
+            }
+        }
+        
         return ResponseEntity.ok( agendamentoService.verAgendamento( id ) );
     }
 
