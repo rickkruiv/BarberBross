@@ -24,7 +24,7 @@ Sistema de agendamento online para barbearias, feito com Java + Spring Boot no b
 ## 📦 Como rodar
 
 1. Clone o repositório  
-   `git clone https://github.com/SEU_USUARIO/BarberBross.git`
+   `git clone https://github.com/rickkruiv/BarberBross.git`
 
 2. Configure o banco no `application.properties`  
 3. Rode o projeto com sua IDE ou `./mvnw spring-boot:run`
