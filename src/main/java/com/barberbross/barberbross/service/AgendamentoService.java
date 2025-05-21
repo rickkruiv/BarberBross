@@ -42,18 +42,12 @@ public class AgendamentoService {
 
     public List<AgendamentDTO> listarAgendamentos( Long barbeariaId ) {
 
-        return agendamentoRepository.findByBarbeariaId( barbeariaId ).stream().map( agendamento -> {
-            AgendamentDTO dto = new AgendamentDTO();
-            dto.setAgendamentoId( agendamento.getId() );
-            dto.setBarbeariaId( agendamento.getBarbearia().getId() );
-            dto.setBarbeiroId( agendamento.getBarbeiro().getId() );
-            dto.setClienteId( agendamento.getCliente().getId() );
-            dto.setData( agendamento.getData() );
-            dto.setHora( agendamento.getHora() );
-            dto.setServicoId( agendamento.getServico().getId() );
-            dto.setStatus( agendamento.getStatus() );
-            return dto;
-        } ).toList();
+        return agendamentoRepository
+                    .findByBarbeariaId( barbeariaId )
+                    .stream()
+                    .map( AgendamentDTO::fromEntity )
+                    .toList();
+                                            
     }
 
     public AgendamentDTO verAgendamento( Long id ) {
