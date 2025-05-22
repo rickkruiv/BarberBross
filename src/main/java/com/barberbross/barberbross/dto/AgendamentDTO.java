@@ -29,6 +29,15 @@ public class AgendamentDTO {
     private StatusAgendamento status;
 
     public static AgendamentDTO fromEntity( Agendamento agendamento ) {
-        return AgendamentDTO.fromEntity( agendamento );
+        AgendamentDTO dto = new AgendamentDTO();
+        dto.setAgendamentoId(agendamento.getId());
+        dto.setBarbeariaId(agendamento.getBarbearia().getId());
+        dto.setBarbeiroId(agendamento.getBarbeiro().getId());
+        dto.setClienteId(agendamento.getCliente().getId());
+        dto.setData(agendamento.getData());
+        dto.setHora(agendamento.getHora());
+        dto.setServicoId(agendamento.getServico().getId());
+        dto.setStatus(agendamento.getStatus());
+        return dto;
     }
 }

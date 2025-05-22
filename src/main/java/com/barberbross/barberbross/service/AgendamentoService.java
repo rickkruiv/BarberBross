@@ -56,18 +56,7 @@ public class AgendamentoService {
             .findById( id )
             .orElseThrow( () -> new RuntimeException( "Agendamento nao encontrado" ) );
         
-        AgendamentDTO dto = new AgendamentDTO();
-
-        dto.setAgendamentoId( agendamento.getId() );
-        dto.setBarbeariaId( agendamento.getBarbearia().getId() );
-        dto.setBarbeiroId( agendamento.getBarbeiro().getId() );
-        dto.setClienteId( agendamento.getCliente().getId() );
-        dto.setServicoId( agendamento.getServico().getId() );
-        dto.setData( agendamento.getData() );
-        dto.setHora( agendamento.getHora() );
-        dto.setStatus( agendamento.getStatus() );
-
-        return dto;
+        return AgendamentDTO.fromEntity( agendamento );
     }
 
     public Agendamento salvarAgendamento( AgendamentDTO dto ) {
