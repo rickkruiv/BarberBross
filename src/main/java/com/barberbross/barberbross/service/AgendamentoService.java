@@ -90,7 +90,7 @@ public class AgendamentoService {
         return agendamentoRepository.save( agendamento );
     }
 
-    @Scheduled( fixedRate = 60000 )
+    @Scheduled( fixedRate = 900000  )
     public void atualizarStatusFinalizado() {
 
         List<Agendamento> agendamentos = agendamentoRepository.findByStatus( StatusAgendamento.AGENDADO );
