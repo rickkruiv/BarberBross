@@ -46,15 +46,10 @@ public class BarbeiroService {
 
     public List<BarbeiroDTO> listarBarbeiros( Long barbeariaId ) {
 
-        return barbeiroRepository.findByBarbeariaId( barbeariaId ).stream().map( barbeiro -> {
-            BarbeiroDTO dto = new BarbeiroDTO();
-            dto.setId( barbeiro.getId() );
-            dto.setNome( barbeiro.getNome() );
-            dto.setDataCadastro( barbeiro.getDataCadastro() );
-            dto.setBarbeariaId( barbeiro.getBarbearia().getId() );;
-            dto.setEspecialidade( barbeiro.getEspecialidade() );
-            return dto;
-        } ).toList();
+        return barbeiroRepository
+                .findByBarbeariaId( barbeariaId )
+                .stream()
+                .map( BarbeiroDTO::fromEntity ).toList();
     }
 
     public BarbeiroDTO verBarbeiro( Long barbeiroId ) {
@@ -63,15 +58,7 @@ public class BarbeiroService {
                                 .findById( barbeiroId )
                                 .orElseThrow( () -> new RuntimeException( "Barbeiro nao encontrado" ) );
 
-        BarbeiroDTO dto = new BarbeiroDTO();
-
-        dto.setId( barbeiro.getId() );
-        dto.setNome( barbeiro.getNome() );
-        dto.setDataCadastro( barbeiro.getDataCadastro() );
-        dto.setEspecialidade( barbeiro.getEspecialidade() );
-        dto.setBarbeariaId( barbeiro.getBarbearia().getId() );
-
-        return dto;
+        return BarbeiroDTO.fromEntity( barbeiro );
     }
 
     public void atualizarBarbeiro( Long barbeiroId, AtualizarBarbeiroDTO dto ) {

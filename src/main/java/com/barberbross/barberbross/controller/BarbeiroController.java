@@ -30,9 +30,9 @@ public class BarbeiroController {
     private BarbeiroService barbeiroService;
 
     @GetMapping
-    public ResponseEntity<?> buscarBarbeiros( @RequestParam( required = false ) Long barbeiroId, @RequestParam( required = false ) Long barbeariaId ) {
+    public ResponseEntity<?> buscarBarbeiros( @RequestParam( required = false ) Long id, @RequestParam( required = false ) Long barbeariaId ) {
         
-        if ( barbeiroId == null ) {
+        if ( id == null ) {
             try {
                 return ResponseEntity.ok( barbeiroService.listarBarbeiros( barbeariaId ) );
             } catch ( RuntimeException e ) {
@@ -41,7 +41,7 @@ public class BarbeiroController {
                         .body( e.getMessage() );
             }
         }
-        return ResponseEntity.ok( barbeiroService.verBarbeiro( barbeiroId ) );
+        return ResponseEntity.ok( barbeiroService.verBarbeiro( id ) );
     }
 
     @PostMapping
