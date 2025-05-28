@@ -163,9 +163,9 @@ public class AgendamentoService {
         DiaEnum diaEnum = DiaEnum.mapearDayOfWeek( agendamento.getData().getDayOfWeek() );
 
         boolean diaDisponivel = agendamento.getBarbeiro()
-            .getDiasDisponiveis()
+            .getDiasNaoDisponiveis()
             .stream()
-            .anyMatch( diaSemana -> diaSemana.getDia() == diaEnum );
+            .anyMatch( diaSemana -> diaSemana == diaEnum );
         
         if ( !diaDisponivel ) {
             throw new RuntimeException( "Barbeiro indisponivel para este dia" );

@@ -12,11 +12,9 @@ import com.barberbross.barberbross.dto.AtualizarBarbeiroDTO;
 import com.barberbross.barberbross.dto.BarbeiroDTO;
 import com.barberbross.barberbross.model.Barbearia;
 import com.barberbross.barberbross.model.Barbeiro;
-import com.barberbross.barberbross.model.DiaSemana;
 import com.barberbross.barberbross.model.HorarioDisponivelBarbeiro;
 import com.barberbross.barberbross.repository.BarbeariaRepository;
 import com.barberbross.barberbross.repository.BarbeiroRepository;
-import com.barberbross.barberbross.repository.DiaSemanaRepository;
 
 @Service
 public class BarbeiroService {
@@ -26,9 +24,6 @@ public class BarbeiroService {
 
     @Autowired
     private BarbeariaRepository barbeariaRepository;
-
-    @Autowired
-    private DiaSemanaRepository diaSemanaRepository;
 
     public Barbeiro salvarBarbeiro( BarbeiroDTO dto ) {
 
@@ -69,9 +64,8 @@ public class BarbeiroService {
 
         barbeiro.setEspecialidade( dto.getEspecialidade() );
 
-        if ( dto.getDiasDisponiveisIds() != null ) {
-            List<DiaSemana> dias = diaSemanaRepository.findAllById( dto.getDiasDisponiveisIds() );
-            barbeiro.setDiasDisponiveis( dias );
+        if ( dto.getDiasDisponiveisValores() != null ) {
+            barbeiro.setDiasNaoDisponiveis( dto.getDiasDisponiveisValores() );
         }
 
         if (dto.getHorariosExecao() != null) {

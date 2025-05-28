@@ -3,6 +3,7 @@ package com.barberbross.barberbross.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.barberbross.barberbross.enums.DiaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -43,8 +44,9 @@ public class Barbeiro {
         joinColumns = @JoinColumn( name = "barbeiro_id" ),
         inverseJoinColumns = @JoinColumn( name = "dia_id" )
     )
+
     @JsonIgnore
-    private List<DiaSemana> diasDisponiveis;
+    private List<DiaEnum> diasNaoDisponiveis;
     
     @OneToMany( mappedBy = "barbeiro", cascade = CascadeType.ALL )
     @JsonIgnore

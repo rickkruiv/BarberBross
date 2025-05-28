@@ -2,6 +2,8 @@ package com.barberbross.barberbross.dto;
 
 import java.util.List;
 
+import com.barberbross.barberbross.enums.DiaEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class AtualizarBarbeiroDTO {
     private String especialidade;
-    private List<Long> diasDisponiveisIds; // IDs dos dias da semana
+    private List<DiaEnum> diasDisponiveisValores;
     private List<HorarioDisponivelBarbeiroDTO> horariosExecao;
 }

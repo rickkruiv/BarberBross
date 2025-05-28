@@ -4,15 +4,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.barberbross.barberbross.model.HorariosFuncionamento;
+import com.barberbross.barberbross.model.Barbearia;
+
 
 public class Horarios {
 
-    public List<LocalTime> gerarHorarios( HorariosFuncionamento horarioFuncionamento ) {
+    public List<LocalTime> gerarHorarios( Barbearia barbearia ) {
 
         List<LocalTime> horarios = new ArrayList<>();
-        LocalTime inicio = horarioFuncionamento.getHorarioInicio();
-        LocalTime fim = horarioFuncionamento.getHorarioFim();
+        LocalTime inicio = barbearia.getHoraInicio();
+        LocalTime fim = barbearia.getHoraFim();
 
         while ( inicio.isBefore( fim.plusMinutes( 1 ) ) ) {
             horarios.add( inicio );
